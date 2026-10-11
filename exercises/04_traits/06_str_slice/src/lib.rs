@@ -30,16 +30,18 @@ impl Ticket {
             status,
         }
     }
-
-    pub fn title(&self) -> &String {
+     // &str is a string slice, which is a reference to a portion of a String. 
+     // It allows you to borrow a part of the String without taking ownership of it. 
+     // This is useful for performance and memory efficiency, as it avoids unnecessary copying of data.
+    pub fn title(&self) -> &str {
         &self.title
     }
 
-    pub fn description(&self) -> &String {
+    pub fn description(&self) -> &str {
         &self.description
     }
 
-    pub fn status(&self) -> &String {
+    pub fn status(&self) -> &str {
         &self.status
     }
 }
