@@ -1,6 +1,10 @@
 // TODO: implement the necessary traits to make the test compile and pass.
 //  You *can't* modify the test.
 
+use std::ops::Add;
+
+// Derive PartialEq and Debug so assert_eq! works
+#[derive(PartialEq, Debug, Clone, Copy)]
 pub struct WrappingU32 {
     value: u32,
 }
@@ -8,6 +12,17 @@ pub struct WrappingU32 {
 impl WrappingU32 {
     pub fn new(value: u32) -> Self {
         Self { value }
+    }
+}
+
+impl Add for WrappingU32 {
+    // For WrappingU32, 
+    // the Output type is Self (which means WrappingU32 itself)
+    type Output = Self;
+
+    fn add(self, other: Self) -> Self::Output {
+        let sum = self.value.wrapping_add(other.value);
+        WrappingU32::new(sum)
     }
 }
 
