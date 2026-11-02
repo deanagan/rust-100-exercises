@@ -7,15 +7,18 @@
 struct Ticket {
     title: String,
     description: String,
-    status: String,
+    status: Status,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq)]
 enum Status {
-    // TODO: add the missing variants
+    Todo,
+    InProgress,
+    Done,
 }
 
 impl Ticket {
-    pub fn new(title: String, description: String, status: String) -> Ticket {
+    pub fn new(title: String, description: String, status: Status) -> Ticket {
         if title.is_empty() {
             panic!("Title cannot be empty");
         }
@@ -28,8 +31,8 @@ impl Ticket {
         if description.len() > 500 {
             panic!("Description cannot be longer than 500 bytes");
         }
-        if status != "To-Do" && status != "In Progress" && status != "Done" {
-            panic!("Only `To-Do`, `In Progress`, and `Done` statuses are allowed");
+        if status != Status::Todo && status != Status::InProgress && status != Status::Done {
+            panic!("Only `Todo`, `InProgress`, and `Done` statuses are allowed");
         }
 
         Ticket {
@@ -47,7 +50,7 @@ impl Ticket {
         &self.description
     }
 
-    pub fn status(&self) -> &String {
+    pub fn status(&self) -> &Status {
         &self.status
     }
 }
@@ -64,12 +67,12 @@ mod tests {
         let ticket1 = Ticket {
             title: title.clone(),
             description: description.clone(),
-            status: Status::ToDo,
+            status: Status::Todo,
         };
         let ticket2 = Ticket {
             title: title.clone(),
             description: description.clone(),
-            status: Status::ToDo,
+            status: Status::Todo,
         };
         assert_eq!(ticket1, ticket2);
     }
@@ -77,7 +80,7 @@ mod tests {
     #[test]
     fn test_description_not_matching() {
         let title = valid_title();
-        let status = Status::ToDo;
+        let status = Status::Todo;
         let ticket1 = Ticket {
             title: title.clone(),
             description: "description".to_string(),
